@@ -61,7 +61,9 @@ CREATE TABLE IF NOT EXISTS products (
     Type ENUM('Physical', 'Non-Physical'),
     category VARCHAR(255),
     fk_developers_id INT,
-    fk_wishlist_id INT
+    fk_wishlist_id INT,
+    fk_supplier_id INT,
+    fk_distributor_id INT
 ) DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS sales (
@@ -70,7 +72,8 @@ CREATE TABLE IF NOT EXISTS sales (
     price INT,
     discount INT,
     quantity INT,
-    priceDistributors INT
+    priceDistributors INT,
+    fk_distributor_id INT
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
@@ -114,7 +117,9 @@ ALTER TABLE customers
 
 ALTER TABLE products 
     ADD CONSTRAINT fk_products_developers FOREIGN KEY (fk_developers_id) REFERENCES developers(id),
-    ADD CONSTRAINT fk_products_wishlists FOREIGN KEY (fk_wishlist_id) REFERENCES wishlists(id);
+    ADD CONSTRAINT fk_products_wishlists FOREIGN KEY (fk_wishlist_id) REFERENCES wishlists(id),
+    ADD CONSTRAINT fk_products_suppliers FOREIGN KEY (fk_supplier_id) REFERENCES suppliers(id),
+    ADD CONSTRAINT fk_products_distributors FOREIGN KEY (fk_distributor_id) REFERENCES distributors(id);
 
 ALTER TABLE reviews 
     ADD CONSTRAINT fk_reviews_users FOREIGN KEY (fk_user_id) REFERENCES users(id),
@@ -137,3 +142,6 @@ ALTER TABLE products_platforms
 ALTER TABLE sales_products 
     ADD CONSTRAINT fk_sales_products_products FOREIGN KEY (fk_products_id) REFERENCES products(id),
     ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id);
+
+ALTER TABLE sales 
+    ADD CONSTRAINT fk_sales_distributors FOREIGN KEY (fk_distributor_id) REFERENCES distributors(id);
