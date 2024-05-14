@@ -1,5 +1,7 @@
 # PowerGuild Database Documentation
 
+![PowerGuild Database Diagram](./BaseDeDados/BD.png)
+
 ## Overview
 This document provides an overview of the SQL script used to create and manage the database for the PowerGuild application. The database is structured to handle various entities such as platforms, developers, payments, suppliers, distributors, users, customers, products, sales, reviews, wishlists, and their relationships.
 
