@@ -28,13 +28,6 @@ CREATE TABLE IF NOT EXISTS suppliers (
     price INT NOT NULL
 ) DEFAULT CHARSET = utf8;
 
-CREATE TABLE IF NOT EXISTS distributors (
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    price FLOAT NOT NULL,
-    location VARCHAR(255) NOT NULL
-) DEFAULT CHARSET = utf8;
-
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(250) NOT NULL,
@@ -72,9 +65,16 @@ CREATE TABLE IF NOT EXISTS sales (
     price INT,
     discount INT,
     quantity INT,
-    priceDistributors INT,
-    fk_distributor_id INT
+    distributorsPrice INT,
+    fk_distributors_id INT
 );
+
+CREATE TABLE IF NOT EXISTS distributors (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    price FLOAT NOT NULL,
+    location VARCHAR(255) NOT NULL
+) DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS reviews (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -144,4 +144,4 @@ ALTER TABLE sales_products
     ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id);
 
 ALTER TABLE sales 
-    ADD CONSTRAINT fk_sales_distributors FOREIGN KEY (fk_distributor_id) REFERENCES distributors(id);
+    ADD CONSTRAINT fk_sales_distributors FOREIGN KEY (fk_distributors_id) REFERENCES distributors(id);
