@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS developers (
 );
 
 CREATE TABLE IF NOT EXISTS payments (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     card_name VARCHAR(50) NOT NULL,
     card_number BIGINT NOT NULL,    
     cvc VARCHAR(3) NOT NULL,
@@ -25,18 +25,18 @@ CREATE TABLE IF NOT EXISTS payments (
 CREATE TABLE IF NOT EXISTS suppliers (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
-    price INT NOT NULL
-) DEFAULT CHARSET = utf8;
+    price FLOAT NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(250) NOT NULL,
     email VARCHAR(250) NOT NULL,
     pwd VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS customers (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     address VARCHAR(50) NOT NULL,
     postal_code VARCHAR(7) NOT NULL,
     phone_number VARCHAR(9) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS customers (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     discount INT,
@@ -57,12 +57,12 @@ CREATE TABLE IF NOT EXISTS products (
     fk_wishlist_id INT,
     fk_supplier_id INT,
     fk_distributor_id INT
-) DEFAULT CHARSET = utf8;
+);
 
 CREATE TABLE IF NOT EXISTS sales (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     date TIMESTAMP,
-    price INT,
+    price FLOAT,
     discount INT,
     quantity INT,
     distributorsPrice INT,
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS distributors (
     name VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
     location VARCHAR(255) NOT NULL
-) DEFAULT CHARSET = utf8;
+);
 
 CREATE TABLE IF NOT EXISTS reviews (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
