@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS suppliers (
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(250) NOT NULL,
-    email VARCHAR(250) NOT NULL,
+    email VARCHAR(250) NOT NULL UNIQUE,
     pwd VARCHAR(50) NOT NULL,
     fk_wishlist_id INT NOT NULL
 );
@@ -98,16 +98,18 @@ CREATE TABLE IF NOT EXISTS customers_payments (
 );
 
 CREATE TABLE IF NOT EXISTS products_platforms (
+    id INT NOT NULL PRIMARY KEY,
     fk_platforms_id INT NOT NULL,
     fk_sales_products_id INT NOT NULL,
-    fk_products_id INT NOT NULL,
-    PRIMARY KEY (fk_platforms_id, fk_sales_products_id, fk_products_id)
+    fk_products_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS sales_products (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    fk_sales_id INT  NOT NULL
-    
+    quantity INT NOT NULL,
+    price FLOAT NOT NULL,
+    fk_sales_id INT  NOT NULL,
+    fk_products_platforms_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS products_wishlists (
@@ -143,7 +145,8 @@ ALTER TABLE products_platforms
     ADD CONSTRAINT fk_products_platforms_products FOREIGN KEY (fk_products_id) REFERENCES products(id);
 
 ALTER TABLE sales_products 
-    ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id);
+    ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id)
+    ADD CONSTRAINT fk_sales_products_products_platforms FOREIGN KEY (fk_products_platforms_id) REFERENCES products_platforms(id);;
 
 ALTER TABLE sales 
     ADD CONSTRAINT fk_sales_distributors FOREIGN KEY (fk_distributors_id) REFERENCES distributors(id);
