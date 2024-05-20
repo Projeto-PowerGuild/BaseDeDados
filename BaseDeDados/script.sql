@@ -145,8 +145,8 @@ ALTER TABLE products_platforms
     ADD CONSTRAINT fk_products_platforms_products FOREIGN KEY (fk_products_id) REFERENCES products(id);
 
 ALTER TABLE sales_products 
-    ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id)
-    ADD CONSTRAINT fk_sales_products_products_platforms FOREIGN KEY (fk_products_platforms_id) REFERENCES products_platforms(id);;
+    ADD CONSTRAINT fk_sales_products_sales FOREIGN KEY (fk_sales_id) REFERENCES sales(id),
+    ADD CONSTRAINT fk_sales_products_products_platforms FOREIGN KEY (fk_products_platforms_id) REFERENCES products_platforms(id);
 
 ALTER TABLE sales 
     ADD CONSTRAINT fk_sales_distributors FOREIGN KEY (fk_distributors_id) REFERENCES distributors(id);
