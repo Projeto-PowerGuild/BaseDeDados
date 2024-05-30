@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS powerguild;
-
+DROP DATABASE IF EXISTS powerguild;
+CREATE DATABASE powerguild;
 USE powerguild;
 
 CREATE TABLE IF NOT EXISTS platforms (
@@ -32,8 +32,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(250) NOT NULL,
     email VARCHAR(250) NOT NULL UNIQUE,
-    pwd VARCHAR(50) NOT NULL,
-    fk_wishlist_id INT NOT NULL
+    pwd VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS customers (
@@ -61,9 +60,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS sales (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     date TIMESTAMP,
-    price FLOAT,
     discount INT,
-    quantity INT,
     distributorsPrice INT,
     fk_distributors_id INT NOT NULL
 );
@@ -98,30 +95,27 @@ CREATE TABLE IF NOT EXISTS customers_payments (
 );
 
 CREATE TABLE IF NOT EXISTS products_platforms (
-    id INT NOT NULL PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     fk_platforms_id INT NOT NULL,
-    fk_sales_products_id INT NOT NULL,
     fk_products_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS sales_products (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    quantity INT NOT NULL,
-    price FLOAT NOT NULL,
-    fk_sales_id INT  NOT NULL,
+    quantity INT,
+    price FLOAT,
+    fk_sales_id INT NOT NULL,
     fk_products_platforms_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS products_wishlists (
     fk_products_id INT NOT NULL,
-    fk_wishlists_id INT NOT NULL
+    fk_wishlists_id INT NOT NULL,
+    PRIMARY KEY (fk_products_id, fk_wishlists_id)
 );
 
 ALTER TABLE customers 
     ADD CONSTRAINT fk_customers_users FOREIGN KEY (fk_user_id) REFERENCES users(id);
-
-ALTER TABLE users
-    ADD CONSTRAINT fk_users_wishlists FOREIGN KEY (fk_wishlist_id) REFERENCES wishlists(id);
 
 ALTER TABLE products 
     ADD CONSTRAINT fk_products_developers FOREIGN KEY (fk_developers_id) REFERENCES developers(id),
@@ -141,7 +135,6 @@ ALTER TABLE customers_payments
 
 ALTER TABLE products_platforms 
     ADD CONSTRAINT fk_products_platforms_platforms FOREIGN KEY (fk_platforms_id) REFERENCES platforms(id),
-    ADD CONSTRAINT fk_products_sales_platforms FOREIGN KEY (fk_sales_products_id) REFERENCES sales_products(id),
     ADD CONSTRAINT fk_products_platforms_products FOREIGN KEY (fk_products_id) REFERENCES products(id);
 
 ALTER TABLE sales_products 
