@@ -62,7 +62,7 @@ GROUP BY
     
  -- Obtenha a quantidade total de avaliações e a média de classificações por produto.
  
- SELECT 
+SELECT 
     products.name AS product_name,
     COUNT(reviews.id) AS review_count,
     AVG(reviews.ratings) AS average_rating
@@ -71,7 +71,10 @@ FROM
 LEFT JOIN 
     reviews ON products.id = reviews.fk_product_id
 GROUP BY 
-    products.name;
+    products.name
+HAVING 
+    COUNT(reviews.id) > 0;
+
     
 -- Liste os produtos que têm uma avaliação média maior ou igual que 4.
     
