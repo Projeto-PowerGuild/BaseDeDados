@@ -23,8 +23,8 @@ JOIN customers cu ON cp.fk_customers_id = cu.id
 JOIN sales sa ON cp.fk_sales_id = sa.id;
 
 
--- Obtenha os detalhes dos produtos juntamente com os desenvolvedores que os criaram.
-SELECT 
+-- Obtenha os detalhes dos produtos com preço superior a 50 juntamente com os desenvolvedores que os criaram.
+SELECT     
     p.name AS product_name,
     p.price,
     d.name AS developer_name,
