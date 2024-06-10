@@ -21,3 +21,70 @@ FROM payments pay
 JOIN customers_payments cp ON pay.id = cp.fk_payments_id
 JOIN customers cu ON cp.fk_customers_id = cu.id
 JOIN sales sa ON cp.fk_sales_id = sa.id;
+
+
+-- Obtenha os detalhes dos produtos juntamente com os desenvolvedores que os criaram.
+SELECT 
+    p.name AS product_name,
+    p.price,
+    d.name AS developer_name,
+    d.contact_email
+FROM 
+    products p
+LEFT JOIN 
+    developers d ON p.fk_developers_id = d.id
+WHERE 
+    p.price > 50;
+    
+-- Encontre desenvolvedores que tenham mais de 2 produtos
+
+SELECT 
+    developers.name AS developer_name,
+    COUNT(products.id) AS product_count
+FROM 
+    developers
+LEFT JOIN 
+    products ON developers.id = products.fk_developers_id
+GROUP BY 
+    developers.name
+HAVING 
+    COUNT(products.id) > 2;
+
+-- Conte o número de produtos por categoria.
+
+SELECT 
+    category,
+    COUNT(id) AS product_count
+FROM 
+    products
+GROUP BY 
+    category;
+    
+ -- Obtenha a quantidade total de avaliações e a média de classificações por produto.
+ 
+ SELECT 
+    products.name AS product_name,
+    COUNT(reviews.id) AS review_count,
+    AVG(reviews.ratings) AS average_rating
+FROM 
+    products
+LEFT JOIN 
+    reviews ON products.id = reviews.fk_product_id
+GROUP BY 
+    products.name;
+    
+-- Liste os produtos que têm uma avaliação média maior ou igual que 4.
+    
+    SELECT 
+    products.name AS product_name,
+    AVG(reviews.ratings) AS average_rating
+FROM 
+    products
+LEFT JOIN 
+    reviews ON products.id = reviews.fk_product_id
+GROUP BY 
+    products.name
+HAVING 
+    AVG(reviews.ratings) >= 4;
+
+    
