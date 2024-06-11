@@ -1,27 +1,65 @@
-SELECT p.id, p.name AS platform_name, d.id AS developer_id, d.name AS developer_name
-FROM platforms p, developers d
-WHERE p.id = d.id;
+-- Seleciona as plataformas e os desenvolvedores com base em IDs correspondentes
+SELECT 
+    p.id, 
+    p.name AS platform_name, 
+    d.id AS developer_id, 
+    d.name AS developer_name
+FROM 
+    platforms p
+JOIN 
+    developers d
+ON 
+    p.id = d.id;
 
-SELECT p.id, p.name AS platform_name, d.id AS developer_id, d.name AS developer_name
-FROM platforms p
-JOIN developers d
-ON p.id = d.id;
+-- Seleciona os desenvolvedores e o número de plataformas em que eles estão registrados
+SELECT 
+    d.id AS developer_id, 
+    d.name AS developer_name, 
+    COUNT(p.id) AS platform_count
+FROM 
+    developers d
+JOIN 
+    platforms p ON d.id = p.id
+GROUP BY 
+    d.id, d.name;
 
-SELECT pr.id AS product_id, pr.name AS product_name, dev.name AS developer_name, sup.name AS supplier_name
-FROM products pr
-JOIN developers dev ON pr.fk_developers_id = dev.id
-JOIN suppliers sup ON pr.fk_suppliers_id = sup.id;
+-- Seleciona os produtos, desenvolvedores e fornecedores com base nas chaves estrangeiras nos produtos
+SELECT pr.id 
+    AS product_id, pr.name 
+    AS product_name, dev.name 
+    AS developer_name, sup.name
+    AS supplier_name
+FROM
+    products pr
+JOIN 
+    developers dev ON pr.fk_developers_id = dev.id
+JOIN 
+    suppliers sup ON pr.fk_suppliers_id = sup.id;
 
-SELECT cu.id AS customer_id, cu.address, cu.postal_code, cu.phone_number, usr.name AS user_name, usr.email
-FROM customers cu
-JOIN users usr ON cu.fk_user_id = usr.id;
+-- Seleciona os clientes e os detalhes do usuário associado a cada cliente
+SELECT 
+    cu.id AS customer_id, cu.address, cu.postal_code, cu.phone_number, 
+    usr.name AS user_name, usr.email
+FROM 
+    customers cu
+JOIN 
+    users usr ON cu.fk_user_id = usr.id;
 
-SELECT pay.id AS payment_id, pay.card_name, pay.card_number, pay.cvc, pay.due_date, cu.id AS customer_id, sa.id AS sale_id
-FROM payments pay
-JOIN customers_payments cp ON pay.id = cp.fk_payments_id
-JOIN customers cu ON cp.fk_customers_id = cu.id
-JOIN sales sa ON cp.fk_sales_id = sa.id;
-
+-- Seleciona os detalhes dos pagamentos, clientes associados e vendas associadas
+SELECT 
+    pay.id AS payment_id, pay.card_name, pay.card_number, pay.cvc, pay.due_date, 
+    cu.id AS customer_id, 
+    sa.id AS sale_id
+FROM 
+    payments pay
+JOIN 
+    customers_payments cp 
+ON 
+    pay.id = cp.fk_payments_id
+JOIN 
+    customers cu ON cp.fk_customers_id = cu.id
+JOIN 
+    sales sa ON cp.fk_sales_id = sa.id;
 
 -- Obtenha os detalhes dos produtos com preço superior a 50 juntamente com os desenvolvedores que os criaram.
 SELECT     
