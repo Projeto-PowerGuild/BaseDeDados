@@ -185,3 +185,109 @@ JOIN
 GROUP BY 
     c.id, c.address, c.phone_number, p.name, pay.card_name, pay.card_number, pay.due_date;
     
+-- A subconsulta retorna os detalhes dos clientes, incluindo o endereço e telefone, juntamente com o nome do produto comprado, o total gasto, e os detalhes do pagamento, mas apenas para a compra mais recente de cada cliente através de uma subconsulta que encontra a data mais recente de venda para cada cliente.
+SELECT 
+    c.id AS customer_id,
+    c.address AS customer_address,
+    c.phone_number AS customer_phone,
+    p.name AS product_name,
+    ROUND(sp.price, 2) AS total_spent,
+    pay.card_name AS payment_card_name,
+    pay.card_number AS payment_card_number,
+    pay.due_date AS payment_due_date
+FROM 
+    customers c
+JOIN 
+    customers_payments cp ON c.id = cp.fk_customers_id
+JOIN 
+    payments pay ON cp.fk_payments_id = pay.id
+JOIN 
+    sales s ON cp.fk_sales_id = s.id
+JOIN 
+    sales_products sp ON s.id = sp.fk_sales_id
+JOIN 
+    products_platforms pp ON sp.fk_products_platforms_id = pp.id
+JOIN 
+    products p ON pp.fk_products_id = p.id
+WHERE 
+    (c.id, s.date) IN (
+        SELECT 
+            c.id, 
+            MAX(s.date)
+        FROM 
+            customers c
+        JOIN 
+            customers_payments cp ON c.id = cp.fk_customers_id
+        JOIN 
+            sales s ON cp.fk_sales_id = s.id
+        GROUP BY 
+            c.id
+    );
+
+-- A subconsulta retorna os detalhes dos distribuidores, incluindo o nome e a localização, mas apenas para aqueles que têm vendas com um total superior a 1000.
+SELECT 
+    d.id AS distributor_id,
+    d.name AS distributor_name,
+    d.location
+FROM 
+    distributors d
+WHERE 
+    d.id IN (
+        SELECT 
+            s.fk_distributors_id
+        FROM 
+            sales s
+        JOIN 
+            sales_products sp ON s.id = sp.fk_sales_id
+        GROUP BY 
+            s.fk_distributors_id
+        HAVING 
+            SUM(sp.price * sp.quantity) > 1000
+    );
+
+-- A subconsulta retorna os detalhes dos produtos, incluindo o nome do desenvolvedor, mas apenas para produtos cujo preço está acima da média de todos os produtos.
+SELECT 
+    p.id AS product_id,
+    p.name AS product_name,
+    p.price,
+    d.name AS developer_name
+FROM 
+    products p
+JOIN 
+    developers d ON p.fk_developers_id = d.id
+WHERE 
+    p.price > (SELECT AVG(price) FROM products);
+
+-- A subconsulta retorna os detalhes dos clientes, incluindo o nome e email, mas apenas para clientes que realizaram uma compra nos últimos 30 dias.    
+SELECT 
+    c.id AS customer_id,
+    c.address AS customer_address,
+    c.phone_number AS customer_phone,
+    u.name AS user_name,
+    u.email AS user_email
+FROM 
+    customers c
+JOIN 
+    users u ON c.fk_user_id = u.id
+WHERE 
+    c.id IN (
+        SELECT cp.fk_customers_id
+        FROM customers_payments cp
+        JOIN sales s ON cp.fk_sales_id = s.id
+        WHERE s.date >= NOW() - INTERVAL 30 DAY
+    );
+
+-- A subconsulta retorna os detalhes dos desenvolvedores, mas apenas para aqueles que têm produtos com desconto.
+SELECT 
+    d.id AS developer_id,
+    d.name AS developer_name,
+    d.location,
+    d.contact_email
+FROM 
+    developers d
+WHERE 
+    d.id IN (
+        SELECT p.fk_developers_id
+        FROM products p
+        WHERE p.discount > 0
+    );
