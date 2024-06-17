@@ -114,7 +114,7 @@ HAVING
     COUNT(reviews.id) > 0;
 
     
--- Liste os produtos que têm uma avaliação média maior ou igual que 4.
+-- Mostre os produtos que têm uma avaliação média maior ou igual que 4.
     
     SELECT 
     products.name AS product_name,
