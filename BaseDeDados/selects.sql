@@ -36,7 +36,7 @@ JOIN
 JOIN 
     suppliers sup ON pr.fk_suppliers_id = sup.id;
 
--- Seleciona os clientes e os detalhes do usuário associado a cada cliente
+-- Seleciona os clientes e os detalhes do utilizador associado a cada cliente
 SELECT 
     cu.id AS customer_id, cu.address, cu.postal_code, cu.phone_number, 
     usr.name AS user_name, usr.email
