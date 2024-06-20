@@ -413,7 +413,9 @@ INSERT INTO reviews (ratings, review_text, review_date, fk_user_id, fk_product_i
 (5, 'Visually stunning!', '2024-06-21 15:10:50', 17, 37),
 (3, 'Interesting story twists!', '2024-06-22 08:25:10', 18, 38),
 (4, 'Great soundtrack!', '2024-06-23 10:30:45', 19, 39),
-(5, 'Challenging boss fights!', '2024-06-24 12:15:20', 20, 40);
+(5, 'What a boring game!', '2024-06-24 12:15:20', 20, 40),
+(2, 'Challenging boss fights!', '2024-02-22 10:15:20', 20, 40),
+(2, '100% Worth it', '2024-05-20 02:15:20', 20, 40);
 
 
 -- Inserir mais dados na tabela customers_payments
