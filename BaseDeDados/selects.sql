@@ -128,7 +128,7 @@ GROUP BY
 HAVING 
     AVG(reviews.ratings) >= 4;
 
--- Obtenha os detalhes dos produtos juntamente com os nomes das plataformas em que estão disponíveis.
+-- Obtem os detalhes dos produtos juntamente com os nomes das plataformas em que estão disponíveis.
 SELECT 
     p.name AS product_name,
     p.price,
@@ -140,7 +140,7 @@ JOIN
 JOIN 
     platforms pl ON pp.fk_platforms_id = pl.id;
     
--- Obtenha os detalhes dos desenvolvedores juntamente com a média de classificações das suas avaliações.
+-- Obtem os detalhes dos desenvolvedores juntamente com a média de classificações das suas avaliações e mostra apenas as avaliações acima de 3.
 SELECT 
     d.name AS developer_name,
     ROUND(AVG(r.ratings), 0) AS average_rating
@@ -151,26 +151,33 @@ LEFT JOIN
 LEFT JOIN 
     reviews r ON p.id = r.fk_product_id
 WHERE 
-    r.ratings IS NOT NULL
+    r.ratings IS NOT NULL AND r.ratings > 3
 GROUP BY 
     d.id;
     
--- Obtenha os detalhes das vendas juntamente com o nome do distribuidor e o número de produtos vendidos em cada venda.
-SELECT 
+-- Obtem os detalhes das vendas juntamente com o nome do distribuidor e a quantidade de produtos disponíveis
+SELECT
     s.id AS sale_id,
-    s.date,
+    s.date AS sale_date,
+    s.discount AS sale_discount,
+    s.distributorsPrice AS distributor_price,
     d.name AS distributor_name,
-    COUNT(sp.fk_products_platforms_id) AS product_count
-FROM 
+    p.name AS product_name,
+    p.quantity AS products_available
+FROM
     sales s
-JOIN 
+JOIN
     distributors d ON s.fk_distributors_id = d.id
-JOIN 
+JOIN
     sales_products sp ON s.id = sp.fk_sales_id
-GROUP BY 
+JOIN
+    products_platforms pp ON sp.fk_products_platforms_id = pp.id
+JOIN
+    products p ON pp.fk_products_id = p.id
+ORDER BY
     s.id;
     
--- Obtenha a quantidade de produtos, clientes, desenvolvedores e fornecedores.
+-- Obtem a quantidade dos produtos, clientes, desenvolvedores e fornecedores.
 
 SELECT 
     'Products' AS Entity,
@@ -196,7 +203,7 @@ SELECT
 FROM 
     suppliers;
 
--- Obtenha detalhes do cliente, jogo comprado, total gasto e detalhes do pagamento.
+-- Obtem os detalhes do cliente, jogo comprado, total gasto e detalhes do pagamento.
 SELECT 
     c.id AS customer_id,
     c.address AS customer_address,
