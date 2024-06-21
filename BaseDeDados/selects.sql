@@ -69,7 +69,7 @@ SELECT
     d.contact_email
 FROM 
     products p
-LEFT JOIN 
+JOIN 
     developers d ON p.fk_developers_id = d.id
 WHERE 
     p.price > 50;
@@ -81,7 +81,7 @@ SELECT
     COUNT(products.id) AS product_count
 FROM 
     developers
-LEFT JOIN 
+JOIN 
     products ON developers.id = products.fk_developers_id
 GROUP BY 
     developers.name
@@ -106,7 +106,7 @@ SELECT
     AVG(reviews.ratings) AS average_rating
 FROM 
     products
-LEFT JOIN 
+JOIN 
     reviews ON products.id = reviews.fk_product_id
 GROUP BY 
     products.name
@@ -121,7 +121,7 @@ HAVING
     AVG(reviews.ratings) AS average_rating
 FROM 
     products
-LEFT JOIN 
+JOIN 
     reviews ON products.id = reviews.fk_product_id
 GROUP BY 
     products.name
@@ -148,7 +148,7 @@ FROM
     developers d
 LEFT JOIN 
     products p ON d.id = p.fk_developers_id
-LEFT JOIN 
+JOIN 
     reviews r ON p.id = r.fk_product_id
 WHERE 
     r.ratings IS NOT NULL AND r.ratings > 3
