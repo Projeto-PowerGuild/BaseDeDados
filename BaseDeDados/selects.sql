@@ -71,7 +71,7 @@ FROM
     products p
 JOIN 
     developers d ON p.fk_developers_id = d.id
-WHERE 7
+WHERE 
     p.price > 50;
     
 -- Pesquisa 7: Encontre desenvolvedores que tenham mais de 2 produtos
