@@ -1,4 +1,5 @@
 -- Pesquisa 1: Seleciona as plataformas e os desenvolvedores com base em IDs correspondentes
+
 SELECT 
     p.id, 
     p.name AS platform_name, 
@@ -12,6 +13,7 @@ ON
     p.id = d.id;
 
 -- Pesquisa 2: Seleciona os desenvolvedores e o número de plataformas em que eles estão registrados
+
 SELECT 
     d.id AS developer_id, 
     d.name AS developer_name, 
@@ -24,6 +26,7 @@ GROUP BY
     d.id, d.name;
 
 -- Pesquisa 3: Seleciona os produtos, desenvolvedores e fornecedores com base nas chaves estrangeiras nos produtos
+
 SELECT pr.id 
     AS product_id, pr.name 
     AS product_name, dev.name 
@@ -62,6 +65,7 @@ JOIN
     sales sa ON cp.fk_sales_id = sa.id;
 
 -- Pesquisa 6: Obtenha os detalhes dos produtos com preço superior a 50 juntamente com os desenvolvedores que os criaram.
+
 SELECT     
     p.name AS product_name,
     p.price,
@@ -116,7 +120,7 @@ HAVING
     
 -- Pesquisa 10: Mostre os produtos que têm uma avaliação média maior ou igual que 4.
     
-    SELECT 
+SELECT 
     products.name AS product_name,
     AVG(reviews.ratings) AS average_rating
 FROM 
@@ -129,6 +133,7 @@ HAVING
     AVG(reviews.ratings) >= 4;
 
 -- Pesquisa 11: Obtem os detalhes dos produtos juntamente com os nomes das plataformas em que estão disponíveis.
+
 SELECT 
     p.name AS product_name,
     p.price,
@@ -141,6 +146,7 @@ JOIN
     platforms pl ON pp.fk_platforms_id = pl.id;
     
 -- Pesquisa 12: Obtem os detalhes dos desenvolvedores juntamente com a média de classificações das suas avaliações e mostra apenas as avaliações acima de 3.
+
 SELECT 
     d.name AS developer_name,
     ROUND(AVG(r.ratings), 0) AS average_rating
@@ -156,6 +162,7 @@ GROUP BY
     d.id;
     
 -- Pesquisa 13: Obtem os detalhes das vendas juntamente com o nome do distribuidor e a quantidade de produtos disponíveis
+
 SELECT
     s.id AS sale_id,
     s.date AS sale_date,
@@ -204,6 +211,7 @@ FROM
     suppliers;
 
 -- Pesquisa 15: Obtem os detalhes do cliente, jogo comprado, total gasto e detalhes do pagamento.
+
 SELECT 
     c.id AS customer_id,
     c.address AS customer_address,
@@ -231,6 +239,7 @@ GROUP BY
     c.id, c.address, c.phone_number, p.name, pay.card_name, pay.card_number, pay.due_date;
     
 -- Pesquisa 16: A subconsulta retorna os IDs dos produtos com média de classificações superior a 4, a consulta externa retorna detalhes dos produtos, incluindo nome do produto, nome do desenvolvedor e média das classificações
+
 SELECT
     p.name AS product_name,
     d.name AS developer_name,
@@ -256,6 +265,7 @@ GROUP BY
     p.id, d.name;
 
 -- Pesquisa 17: A subconsulta retorna os IDs dos distribuidores cujas vendas, somadas pelo preço e quantidade dos produtos, ultrapassam 1000, a consulta externa retorna detalhes dos distribuidores, incluindo ID, nome e localização, apenas para aqueles cujos IDs foram retornados pela subconsulta.
+
 SELECT 
     d.id AS distributor_id,
     d.name AS distributor_name,
@@ -277,6 +287,7 @@ WHERE
 );
 
 -- Pesquisa 18: A subconsulta retorna a média dos preços de todos os produtos, a consulta externa seleciona o ID, nome e preço dos produtos, juntamente com o nome do desenvolvedor
+
 SELECT 
     p.id AS product_id,
     p.name AS product_name,
@@ -290,6 +301,7 @@ WHERE
     p.price > (SELECT AVG(price) FROM products);
 
 -- Pesquisa 19: A subconsulta retorna os IDs dos clientes que realizaram pagamentos associados a vendas ocorridas nos últimos 30 dias, a consulta externa seleciona o ID do cliente, endereço, número de telefone, nome e e-mail do usuário associado a cada cliente
+
 SELECT 
     c.id AS customer_id,
     c.address AS customer_address,
@@ -309,6 +321,7 @@ WHERE
 );
 
 -- Pesquisa 20: A subconsulta retorna os IDs dos desenvolvedores associados a produtos que têm desconto maior que 44, a consulta externa seleciona o ID, nome, localização e e-mail de contato dos desenvolvedores
+
 SELECT 
     d.id AS developer_id,
     d.name AS developer_name,
